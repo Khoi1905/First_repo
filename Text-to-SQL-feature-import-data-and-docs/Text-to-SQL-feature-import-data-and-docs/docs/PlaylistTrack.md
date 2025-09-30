@@ -1,0 +1,13 @@
+## Bảng: PlaylistTrack
+### Schema:
+- PlaylistId (INTEGER) [PK]
+- TrackId (INTEGER) [PK]
+
+### Sample Data:
+|   PlaylistId |   TrackId |
+|-------------:|----------:|
+|            1 |      3402 |
+|            1 |      3389 |
+|            1 |      3390 |
+|            1 |      3391 |
+|            1 |      3392 |

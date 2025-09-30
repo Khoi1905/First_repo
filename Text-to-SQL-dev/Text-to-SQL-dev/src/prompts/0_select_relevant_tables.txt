@@ -1,0 +1,18 @@
+Given the following list of database table summaries and the user question, select all tables that are possibly relevant to answer the question.
+If you are unsure whether a table is relevant, it is better to include it.  
+Err on the side of including more tables, rather than missing any table that might be needed.
+
+Return the result as a JSON array of table names (strings).
+Do not return anything except the JSON array. Do not include any explanation, comments, or markdown.
+
+Format example:
+["orders", "users"]
+
+Table summaries:
+{% for tbl in table_summaries %}
+- Table: {{ tbl.id_table }}; Description: {{ tbl.description }}; Columns: {{ tbl.columns }}
+{% endfor %}
+------------
+User question: {{ question }}
+
+Your answer:

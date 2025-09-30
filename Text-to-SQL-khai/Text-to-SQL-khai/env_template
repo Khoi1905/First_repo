@@ -1,0 +1,9 @@
+# Uncomment and complete if you want to use Ollama
+# LLM_TYPE= ollama
+# CHAT_MODEL = qwen2.5:7b
+
+
+# Uncomment and complete if you want to use OpenAI
+LLM_TYPE= openai
+OPENAI_API_KEY= <Your API Key>
+CHAT_MODEL= gpt-4o-mini

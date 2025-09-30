@@ -1,0 +1,20 @@
+## Bảng: Track
+### Schema:
+- TrackId (INTEGER) [PK]
+- Name (NVARCHAR(200))
+- AlbumId (INTEGER)
+- MediaTypeId (INTEGER)
+- GenreId (INTEGER)
+- Composer (NVARCHAR(220))
+- Milliseconds (INTEGER)
+- Bytes (INTEGER)
+- UnitPrice (NUMERIC(10,2))
+
+### Sample Data:
+|   TrackId | Name                                    |   AlbumId |   MediaTypeId |   GenreId | Composer                                                               |   Milliseconds |    Bytes |   UnitPrice |
+|----------:|:----------------------------------------|----------:|--------------:|----------:|:-----------------------------------------------------------------------|---------------:|---------:|------------:|
+|         1 | For Those About To Rock (We Salute You) |         1 |             1 |         1 | Angus Young, Malcolm Young, Brian Johnson                              |         343719 | 11170334 |        0.99 |
+|         2 | Balls to the Wall                       |         2 |             2 |         1 |                                                                        |         342562 |  5510424 |        0.99 |
+|         3 | Fast As a Shark                         |         3 |             2 |         1 | F. Baltes, S. Kaufman, U. Dirkscneider & W. Hoffman                    |         230619 |  3990994 |        0.99 |
+|         4 | Restless and Wild                       |         3 |             2 |         1 | F. Baltes, R.A. Smith-Diesel, S. Kaufman, U. Dirkscneider & W. Hoffman |         252051 |  4331779 |        0.99 |
+|         5 | Princess of the Dawn                    |         3 |             2 |         1 | Deaffy & R.A. Smith-Diesel                                             |         375418 |  6290521 |        0.99 |

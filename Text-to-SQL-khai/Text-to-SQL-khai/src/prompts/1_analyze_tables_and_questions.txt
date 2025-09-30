@@ -1,0 +1,78 @@
+Given the following list of database table descriptions and the user question, analyze and decompose the solution into a sequence of step-by-step actions.
+
+For each step, specify:
+- A brief description of the step (`step_description`).
+- The reason for this step (`reason`).
+- The list of tables or intermediate results used in this step (`used_tables`).
+- For each table or result used in this step, specify which columns will be operated on and how (`table_operations`).
+- The expected output or requirement/result after this step (`expected_output`).  
+  (Describe what will be obtained after this step, for example: "A temporary table named user_order_summary with columns user_id and total_amount", "A list of user IDs", "A joined table with user names and spending", ...)
+
+**If any step creates an intermediate table or result, please give it a clear name in `expected_output` so that it can be referred to in subsequent steps.**  
+In later steps, you may use tables, intermediate tables, or results created in previous steps as input.
+
+**The final step must generate the complete SQL query that directly answers the user's question and returns the result to the user. Clearly indicate in the final step's `expected_output` that this is the final SQL output for the user.**
+
+**Do not generate or include any SQL code in `expected_output`. Only describe the logical result/output that will be returned to the user.**
+
+Return your answer as a valid JSON array (not markdown, not code block, no explanation, no extra text, no comments, and no blank lines before or after the array).  
+Do not include any text before or after the JSON. Only return the JSON array, nothing else.
+
+Format example:
+[
+  {
+    "step_description": "Aggregate the total order amount per user.",
+    "reason": "To identify users who have spent more than 1000.",
+    "used_tables": ["orders"],
+    "table_operations": [
+      {
+        "table_name": "orders",
+        "columns": ["user_id", "total_amount"],
+        "operation": "Group by user_id, sum total_amount"
+      }
+    ],
+    "expected_output": "A temporary table named high_spending_users with columns user_id and total_amount."
+  },
+  {
+    "step_description": "Find user names for users with high spending.",
+    "reason": "To get the names of users who satisfy the spending condition.",
+    "used_tables": ["users", "user_order_summary"],
+    "table_operations": [
+      {
+        "table_name": "user_order_summary",
+        "columns": ["user_id", "total_amount"],
+        "operation": "Filter where total_amount > 1000"
+      },
+      {
+        "table_name": "users",
+        "columns": ["id", "name"],
+        "operation": "Join with user_order_summary on users.id = user_order_summary.user_id"
+      }
+    ],
+    "expected_output": "A list of user names whose total order amount is greater than 1000 (final output for the user)."
+  }
+]
+
+Table descriptions:
+{% for tbl in table_descriptions -%}
+-----
+- Table: {{ tbl.id_table }}
+  Description: {{ tbl.description }}
+  Columns:
+  {% for col in tbl.columns -%}
+    - Name: {{ col.name }}; Type: {{ col.type }}; Description: {{ col.description }}
+      {%- if col.example is defined %}; Example: {{ col.example }}{% endif %}
+      {%- if col.primary_key is defined %}; Primary Key: {{ col.primary_key }}{% endif %}
+      {%- if col.unique is defined %}; Unique: {{ col.unique }}{% endif %}
+      {%- if col.foreign_key is defined %}; Foreign Key: {{ col.foreign_key }}{% endif %}
+      {%- if col.nullable is defined %}; Nullable: {{ col.nullable }}{% endif %}
+  {% endfor %}
+  {%- if tbl.note is defined %}
+  Note: {{ tbl.note }}
+  {% endif %} 
+{% endfor -%}
+
+------------
+User question: {{ question }} 
+
+Your answer:

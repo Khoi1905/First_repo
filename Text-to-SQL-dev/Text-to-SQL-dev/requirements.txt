@@ -1,0 +1,8 @@
+# python 3.10
+
+langchain==0.3.27
+langchain-ollama==0.3.6
+langchain_openai==0.3.29
+uvicorn==0.35.0
+fastapi==0.116.1
+gradio==5.47.2

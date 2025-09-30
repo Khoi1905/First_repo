@@ -1,0 +1,42 @@
+Given the following multi-step plan, the relevant database tables, and the user's question, review the plan to identify any possible issues, mistakes, missing or redundant steps.
+
+If the plan contains errors (such as incorrect logic, missing necessary steps, redundant actions, dependency mistakes, or incorrect use of tables/columns), correct the plan to make it more accurate and effective.
+
+**The final step in the plan must generate the SQL query that directly answers the user's question and returns the result to the user. If the plan does not include such a step, you must add it as the last step.**
+
+**Do not generate or include any SQL code in `expected_output`. Only describe the logical result/output that will be returned to the user.**
+
+Return the improved plan as a valid JSON array in the same format as the original plan.  
+If the plan is already correct and optimal, return the original plan (no extra text, comments, or explanation).
+
+Format example:
+[
+  {
+    "step_description": "...",
+    "reason": "...",
+    "used_tables": [...],
+    "table_operations": [...],
+    "expected_output": "..."
+  },
+  ...
+]
+
+Relevant tables:
+{% for tbl in relevant_tables %}
+- Table: {{ tbl.table_name }}; Columns: [{% for col in tbl.columns %}{{ col.name }}{% if not loop.last %}, {% endif %}{% endfor %}]
+{% endfor %}
+
+------------
+User question: {{ user_question }}
+
+Original plan:
+{% for step in step_requirements %}
+Step {{ loop.index }}:
+  step_description: {{ step.step_description }}
+  reason: {{ step.reason }}
+  used_tables: {{ step.involved_tables }}
+  table_operations: {{ step.table_operations }}
+  expected_output: {{ step.expected_output }}
+{% endfor %}
+
+Your answer:

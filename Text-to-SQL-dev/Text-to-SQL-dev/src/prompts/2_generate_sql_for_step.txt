@@ -1,0 +1,33 @@
+Given the database schema, the original user question, all previous steps (with SQL code), and the current step, generate the SQL code for the current step.
+
+**Return only the SQL code for this step. Do not include any explanation, comments, or markdown.**
+
+Database schema (for your reference):
+{% for tbl in table_descriptions %}
+- Table: {{ tbl.table_name }}; Columns: [{% for col in tbl.columns %}{{ col.name }}{% if not loop.last %}, {% endif %}{% endfor %}]
+{% endfor %}
+
+In addition to the above database tables, you may also use any intermediate tables or results that have been created in previous steps.
+
+------------
+User question: {{ user_question }}
+
+{% if prev_context %}
+Previous steps and their SQL:
+{% for prev, sql in prev_context %}
+Step {{ loop.index }}:
+  Description: {{ prev.step_description }}
+  Output requirement: {{ prev.expected_output }}
+  SQL:
+  {{ sql }}
+{% endfor %}
+{% else %}
+No previous steps have been executed.
+{% endif %}
+
+Current step:
+Description: {{ current_step.step_description }}
+Operations: {{ current_step.table_operations }}
+Expected output: {{ current_step.expected_output }}
+
+Your answer:

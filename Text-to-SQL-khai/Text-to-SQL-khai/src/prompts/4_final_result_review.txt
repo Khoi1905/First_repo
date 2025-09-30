@@ -1,0 +1,52 @@
+Given the following:
+- The original user question.
+- The list of database table descriptions.
+- The full sequence of step requirements (step-by-step plan) and the SQL generated for each step (including the final step).
+
+**Your tasks:**
+1. Carefully review all steps, requirements, and SQL code from previous steps to ensure logical correctness and that all necessary logic is included in the final SQL.
+2. If there are logical issues, missing steps, redundant subqueries, or unnecessary intermediate results in the steps or SQL, **refine and correct them** so that the final SQL fully and correctly answers the user's question.
+3. **Integrate all previous steps into a single, self-contained, executable SQL statement.**  
+   - Do not assume any intermediate tables already exist in the database.
+   - You must use subqueries or CTEs to combine all previous logic as needed.
+   - The final SQL must return the direct answer for the user's question.
+
+**Output requirements:**
+- Return only the final SQL query as a plain text string.
+- Do not return any explanations, comments, or any other text.
+- Do not wrap the SQL in a code block or markdown formatting—just the raw SQL statement.
+
+-------------
+Database table descriptions:
+{% for tbl in table_descriptions -%}
+-----
+- Table: {{ tbl.id_table }}
+  Description: {{ tbl.description }}
+  Columns:
+  {% for col in tbl.columns -%}
+    - Name: {{ col.name }}; Type: {{ col.type }}; Description: {{ col.description }}
+      {%- if col.example is defined %}; Example: {{ col.example }}{% endif %}
+      {%- if col.primary_key is defined %}; Primary Key: {{ col.primary_key }}{% endif %}
+      {%- if col.unique is defined %}; Unique: {{ col.unique }}{% endif %}
+      {%- if col.foreign_key is defined %}; Foreign Key: {{ col.foreign_key }}{% endif %}
+      {%- if col.nullable is defined %}; Nullable: {{ col.nullable }}{% endif %}
+  {% endfor %}
+  {%- if tbl.note is defined %}
+  Note: {{ tbl.note }}
+  {% endif %}
+{% endfor -%}
+
+-------------
+User question: {{ user_question }}
+
+-------------
+Step-by-step requirements and corresponding SQL code (in order):
+{% for step, sql in combined -%}
+Step requirement:
+{{ step }}
+SQL for this step:
+{{ sql }}
+{% endfor %}
+
+-------------
+Your answer:
